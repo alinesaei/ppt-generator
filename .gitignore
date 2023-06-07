@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#PPTX FILES
+*.PPTX
+*.pptx 
+
 # C extensions
 *.so
 

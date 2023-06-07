@@ -29,13 +29,21 @@ def main():
                 you to create stunning PowerPoint presentations and generate concise text summaries effortlessly.
                 Whether you need to deliver a compelling presentation or extract key information from lengthy texts,
                 this application is here to simplify your workflow.**
-                \n[:link:](https://github.com/alinesaei/ppt-generator)
                 """
                 )
+            st.markdown("[:link:](https://github.com/alinesaei/ppt-generator)")
         with right_col:
            # st.image('images/presentation-logo2.jpg', use_column_width="always")
            st_lottie("https://assets2.lottiefiles.com/private_files/lf30_0dui3jqg.json")
-        
+    st.divider()
+    with st.container():
+        image_container, text_container = st.columns((1, 2))
+        #with image_container:
+            #TODO
+            #st.image('images/summarizer.jpg', use_column_width='always')
+        #with text_container:
+            #TODO
+            #st.image('images/gptlogo.png', use_column_width='always')
     
     menu = ["Generate PPT", "Summarizer"]
     choice = st.sidebar.selectbox("Menu", menu)

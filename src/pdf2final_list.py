@@ -1,4 +1,4 @@
-import gpt
+import src.gpt
 import time
 
 def process(topic_list):

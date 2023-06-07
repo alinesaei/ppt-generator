@@ -1,7 +1,7 @@
 from pptx import Presentation
 from pptx.util import Inches,Pt
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
-import addphoto
+import src.addphoto
 import re
 #Create a new PowerPoint presentation
 
