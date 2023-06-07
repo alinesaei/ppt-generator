@@ -1,14 +1,42 @@
 import streamlit as st
-import pdf2final_list
-import text2ppt
+import src.pdf2final_list
+import src.text2ppt
 import shutil
 import os
-from summarizer import generate_summary
+from src.summarizer import generate_summary
+import requests
+from streamlit_lottie import st_lottie
+
+
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 def main():
-    st.set_page_config(page_title="PDF2PPT Generator", page_icon="📚")
-    st.title("PDF2PPT Generator")
+    st.set_page_config(page_title="PowerPoint Generator", page_icon=":books:", layout="wide")
 
+    # --- HEADER SECTION ---
+    with st.container():
+        left_col, right_col = st.columns(2)
+        with left_col:
+            st.subheader("Welcome to Presentation Generator!")
+            st.title("Presentation Generator 💻 :book:")
+            st.write(
+                """
+                **Presentation Generator is a powerful web application that empowers
+                you to create stunning PowerPoint presentations and generate concise text summaries effortlessly.
+                Whether you need to deliver a compelling presentation or extract key information from lengthy texts,
+                this application is here to simplify your workflow.**
+                \n[:link:](https://github.com/alinesaei/ppt-generator)
+                """
+                )
+        with right_col:
+           # st.image('images/presentation-logo2.jpg', use_column_width="always")
+           st_lottie("https://assets2.lottiefiles.com/private_files/lf30_0dui3jqg.json")
+        
+    
     menu = ["Generate PPT", "Summarizer"]
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -29,16 +57,9 @@ def generate_ppt():
             st.info("Generating PPT... Please wait.")
 
             x = pdf2final_list.process(topics)
-            text2ppt.presentate(x)
-
-            file_path = st.file_uploader("Save PPT", type=['pptx'], key="file_uploader")
-            if file_path is not None:
-                with open("PPT.pptx", "wb") as file:
-                    file.write(file_path.getvalue())
-
-                shutil.copy("PPT.pptx", file_path.name)
-                st.success("File Saved Successfully")
-                os.startfile(file_path.name)
+            prs = text2ppt.presentate(x)
+            #save_ppt(prs, '/media/ali/New Volume/znu/term 10/AI-presentation-generator/app/presentation-generator')
+                
         except Exception as e:
             st.error(str(e))
 

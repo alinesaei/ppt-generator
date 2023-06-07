@@ -1,6 +1,9 @@
 import openai
+from openai import Completion
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Set OpenAI API key
 openai.api_key = os.getenv('OPENAI_KEY')
 
