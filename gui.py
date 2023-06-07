@@ -6,7 +6,7 @@ import os
 from src.summarizer import generate_summary
 import requests
 from streamlit_lottie import st_lottie
-
+from PIL import Image
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -36,14 +36,42 @@ def main():
            # st.image('images/presentation-logo2.jpg', use_column_width="always")
            st_lottie("https://assets2.lottiefiles.com/private_files/lf30_0dui3jqg.json")
     st.divider()
+    
+    #ABOUT POWERPOINT GENERATOR
     with st.container():
         image_container, text_container = st.columns((1, 2))
-        #with image_container:
+        with image_container:
+        #     #TODO
+            gpt_logo = Image.open('ppt-generator/images/gptlogo.png')
+            st.image(gpt_logo, use_column_width='always')
+            
+        with text_container:
             #TODO
-            #st.image('images/summarizer.jpg', use_column_width='always')
-        #with text_container:
+           st.markdown(
+                """
+                The PowerPoint Generator leverages the power of GPT-3.5, an advanced language model developed by OpenAI. By harnessing the capabilities of GPT-3.5, it utilizes artificial intelligence to rapidly generate detailed content for a wide range of topics. This ensures that the generated slides contain accurate and relevant information, saving you time and effort in researching and compiling content for your presentation.
+                """
+            )
+           
+    st.divider()
+    #ABOUT SUMMARIZER
+    with st.container():
+        image_container, text_container = st.columns((1, 2))
+        with image_container:
+        #     #TODO
+            summarizer_logo = Image.open('ppt-generator/images/summarization-img.png')
+            st.image(summarizer_logo, use_column_width='always')
+        with text_container:
             #TODO
-            #st.image('images/gptlogo.png', use_column_width='always')
+            st.markdown(
+                """
+                The Summarizer is a powerful text summarization tool that utilizes advanced natural language processing techniques to generate concise summaries of large blocks of text. It helps users extract key information and main points from lengthy documents, articles, or any text input.
+                Using state-of-the-art language models, the Summarizer analyzes the input text, identifies important sentences or passages, and generates a condensed summary that captures the essence of the original content. The summarization process saves time and allows users to quickly grasp the main ideas without having to read through the entire text.
+                With the Summarizer, you can effectively summarize research papers, news articles, blog posts, or any textual content, enabling you to digest information more efficiently and make informed decisions. Simply input your text, click the "Summarize" button, and let the Summarizer do the rest!
+                """
+            )
+        
+
     
     menu = ["Generate PPT", "Summarizer"]
     choice = st.sidebar.selectbox("Menu", menu)
@@ -85,3 +113,5 @@ def summarizer():
 
 if __name__ == '__main__':
     main()
+
+
