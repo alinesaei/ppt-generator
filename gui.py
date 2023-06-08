@@ -1,6 +1,6 @@
 import streamlit as st
-import src.pdf2final_list
-import src.text2ppt
+from src.pdf2final_list import process
+from  src.text2ppt import presentate
 import shutil
 import os
 from src.summarizer import generate_summary
@@ -42,7 +42,7 @@ def main():
         image_container, text_container = st.columns((1, 2))
         with image_container:
         #     #TODO
-            gpt_logo = Image.open('ppt-generator/images/gptlogo.png')
+            gpt_logo = Image.open('images/gptlogo.png', mode='r')
             st.image(gpt_logo, use_column_width='always')
             
         with text_container:
@@ -59,7 +59,7 @@ def main():
         image_container, text_container = st.columns((1, 2))
         with image_container:
         #     #TODO
-            summarizer_logo = Image.open('ppt-generator/images/summarization-img.png')
+            summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
             st.image(summarizer_logo, use_column_width='always')
         with text_container:
             #TODO
@@ -84,6 +84,12 @@ def main():
 def generate_ppt():
     st.write("Enter comma-separated topics:")
     input_text = st.text_input("Topics")
+    difficulty = st.select_slider(
+        'Select the diffulcty of the content',
+        options=['easy', 'medium', 'hard']
+    )
+    keyword = st.text_input('Keywords')
+    file_name_save = st.text_input('file name')
     #author_name = st.text_input("Author Name")
     #presentation_title = st.text_input("Presentation Title")
     if st.button("Generate PPT", key="generate_button"):
@@ -91,9 +97,9 @@ def generate_ppt():
             topics = [topic.strip() for topic in input_text.split(",")]
             st.write(f"Topics: {', '.join(topics)}")
             st.info("Generating PPT... Please wait.")
-
-            x = pdf2final_list.process(topics)
-            prs = text2ppt.presentate(x)
+            keyword_list = [k.strip() for k in keyword.split(',')]
+            x = process(topics, difficulty)
+            prs = presentate(x, file_name_save)
             #save_ppt(prs, '/media/ali/New Volume/znu/term 10/AI-presentation-generator/app/presentation-generator')
                 
         except Exception as e:

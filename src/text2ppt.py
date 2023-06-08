@@ -1,11 +1,11 @@
 from pptx import Presentation
 from pptx.util import Inches,Pt
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
-import src.addphoto
+import src.addphoto as addphoto
 import re
 #Create a new PowerPoint presentation
 
-def presentate(defined_list):
+def presentate(defined_list, save_as):
     prs = Presentation()
 
     def add_slide(prs, layout, title, subtitle):
@@ -68,4 +68,4 @@ def presentate(defined_list):
         addphoto.empty_images()
 
     # Save the presentation
-    prs.save("PPT.pptx")
+    prs.save(f"{save_as}.pptx")
