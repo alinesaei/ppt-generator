@@ -7,6 +7,7 @@ from src.summarizer import generate_summary
 import requests
 from streamlit_lottie import st_lottie
 from PIL import Image
+from streamlit_option_menu import option_menu
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -17,6 +18,22 @@ def load_lottieurl(url):
 def main():
     st.set_page_config(page_title="PowerPoint Generator", page_icon=":books:", layout="wide")
 
+
+    # 2. horizontal menu
+    choice = option_menu(None, ["Home", "Generate PPT", 'Summarizer'], 
+        icons=['Home', 'Generate PPT', 'Summarizer'], 
+        menu_icon="cast", default_index=0, orientation="horizontal")
+
+    if choice == "Generate PPT":
+        generate_ppt()
+    elif choice == "Summarizer":
+        summarizer()
+
+    elif choice == 'Home': 
+        Home()
+
+
+def Home():
     # --- HEADER SECTION ---
     with st.container():
         left_col, right_col = st.columns(2)
@@ -41,12 +58,10 @@ def main():
     with st.container():
         image_container, text_container = st.columns((1, 2))
         with image_container:
-        #     #TODO
             gpt_logo = Image.open('images/gptlogo.png', mode='r')
             st.image(gpt_logo, use_column_width='always')
             
         with text_container:
-            #TODO
            st.markdown(
                 """
                 The PowerPoint Generator leverages the power of GPT-3.5, an advanced language model developed by OpenAI. By harnessing the capabilities of GPT-3.5, it utilizes artificial intelligence to rapidly generate detailed content for a wide range of topics. This ensures that the generated slides contain accurate and relevant information, saving you time and effort in researching and compiling content for your presentation.
@@ -58,11 +73,9 @@ def main():
     with st.container():
         image_container, text_container = st.columns((1, 2))
         with image_container:
-        #     #TODO
             summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
             st.image(summarizer_logo, use_column_width='always')
         with text_container:
-            #TODO
             st.markdown(
                 """
                 The Summarizer is a powerful text summarization tool that utilizes advanced natural language processing techniques to generate concise summaries of large blocks of text. It helps users extract key information and main points from lengthy documents, articles, or any text input.
@@ -71,16 +84,7 @@ def main():
                 """
             )
         
-
-    
-    menu = ["Generate PPT", "Summarizer"]
-    choice = st.sidebar.selectbox("Menu", menu)
-
-    if choice == "Generate PPT":
-        generate_ppt()
-    elif choice == "Summarizer":
-        summarizer()
-
+ 
 def generate_ppt():
     st.write("Enter comma-separated topics:")
     input_text = st.text_input("Topics")
@@ -89,6 +93,12 @@ def generate_ppt():
         options=['easy', 'medium', 'hard']
     )
     keyword = st.text_input('Keywords')
+    language = st.selectbox(
+    'Select the language',
+    ('English', 'فارسی'))
+
+    if language == 'فارسی':
+        language = 'farsi'
     color = st.color_picker('Pick A Color for the background', '#00f900').lstrip('#')
     file_name_save = st.text_input('file name')
     #author_name = st.text_input("Author Name")
@@ -99,9 +109,9 @@ def generate_ppt():
             st.write(f"Topics: {', '.join(topics)}")
             st.info("Generating PPT... Please wait.")
             keyword_list = [k.strip() for k in keyword.split(',')]
-            x = process(topics, difficulty)
+            x = process(topics, difficulty, language)
             prs = presentate(x, file_name_save, color)
-            #save_ppt(prs, '/media/ali/New Volume/znu/term 10/AI-presentation-generator/app/presentation-generator')
+            
                 
         except Exception as e:
             st.error(str(e))

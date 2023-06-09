@@ -1,7 +1,7 @@
 import src.gpt as gpt
 import time
 
-def process(topic_list, difficulty):
+def process(topic_list, difficulty, language):
     data_list=[]
     for topic in topic_list:
         dct={}
@@ -14,6 +14,10 @@ def process(topic_list, difficulty):
         elif difficulty == "hard":
             prompt += " Please provide an in-depth analysis including advantages, disadvantages, and examples."
 
+        if language == 'farsi' : 
+            prompt += " generate it in farsi"
+    
+        
         text=gpt.gpt_summarise(prompt, topic)
         dct["Topic"]=text.split("Summary:")[0][6:]
         dct["Summary"]=text.split("Summary:")[1].split("\n")

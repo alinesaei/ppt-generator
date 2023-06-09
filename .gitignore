@@ -6,6 +6,7 @@ __pycache__/
 #PPTX FILES
 *.PPTX
 *.pptx 
+*.pptx#
 
 # C extensions
 *.so
