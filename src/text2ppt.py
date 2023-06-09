@@ -3,9 +3,10 @@ from pptx.util import Inches,Pt
 from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
 import src.addphoto as addphoto
 import re
+from pptx.dml.color import RGBColor
 #Create a new PowerPoint presentation
 
-def presentate(defined_list, save_as):
+def presentate(defined_list, save_as, color):
     prs = Presentation()
 
     def add_slide(prs, layout, title, subtitle):
@@ -67,5 +68,11 @@ def presentate(defined_list, save_as):
             slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],2)[1])
         addphoto.empty_images()
 
+    rgb_color = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
+    background_color = RGBColor(rgb_color[0], rgb_color[1], rgb_color[2])
+    
+    for slide in prs.slides:
+        slide.background.fill.solid()
+        slide.background.fill.fore_color.rgb = background_color
     # Save the presentation
     prs.save(f"{save_as}.pptx")

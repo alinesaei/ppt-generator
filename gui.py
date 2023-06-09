@@ -89,6 +89,7 @@ def generate_ppt():
         options=['easy', 'medium', 'hard']
     )
     keyword = st.text_input('Keywords')
+    color = st.color_picker('Pick A Color for the background', '#00f900').lstrip('#')
     file_name_save = st.text_input('file name')
     #author_name = st.text_input("Author Name")
     #presentation_title = st.text_input("Presentation Title")
@@ -99,7 +100,7 @@ def generate_ppt():
             st.info("Generating PPT... Please wait.")
             keyword_list = [k.strip() for k in keyword.split(',')]
             x = process(topics, difficulty)
-            prs = presentate(x, file_name_save)
+            prs = presentate(x, file_name_save, color)
             #save_ppt(prs, '/media/ali/New Volume/znu/term 10/AI-presentation-generator/app/presentation-generator')
                 
         except Exception as e:
