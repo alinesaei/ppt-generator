@@ -63,7 +63,7 @@ def Home():
             # st.image(gpt_logo, use_column_width='always')
             with tempfile.TemporaryDirectory() as temp_dir:
                 gpt_logo_path = os.path.join(temp_dir, "gptlogo.png")
-                gpt_logo = Image.open('images/gptlogo.png', mode='r')
+                gpt_logo = Image.open('logo/gptlogo.png', mode='r')
                 gpt_logo.save(gpt_logo_path)
                 st.image(gpt_logo_path, use_column_width='always')
 
@@ -84,7 +84,7 @@ def Home():
             # st.image(summarizer_logo, use_column_width='always')
             with tempfile.TemporaryDirectory() as temp_dir:
                 summarizer_logo_path = os.path.join(temp_dir, "summarizer.jpg")
-                summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
+                summarizer_logo = Image.open('logo/summarizer.jpg', mode='r')
                 summarizer_logo.save(summarizer_logo_path)
                 st.image(summarizer_logo_path, use_column_width='always')
 
@@ -118,12 +118,12 @@ def generate_ppt():
     #presentation_title = st.text_input("Presentation Title")
     if st.button("Generate PPT", key="generate_button"):
         try:
-            topics = [topic.strip() for topic in input_text.split(",")]
-            st.write(f"Topics: {', '.join(topics)}")
-            st.info("Generating PPT... Please wait.")
-            keyword_list = [k.strip() for k in keyword.split(',')]
-            x = process(topics, difficulty, language)
-            prs = presentate(x, file_name_save, color)
+            with st.spinner('In progress...'):
+                topics = [topic.strip() for topic in input_text.split(",")]
+                keyword_list = [k.strip() for k in keyword.split(',')]
+                x = process(topics, difficulty, language)
+                prs = presentate(x, file_name_save, color)
+            st.success('Done!')
             
                 
         except Exception as e:
