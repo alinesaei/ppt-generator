@@ -15,7 +15,7 @@ def process(topic_list, difficulty, language):
             prompt += " Please provide an in-depth analysis including advantages, disadvantages, and examples."
 
         if language == 'farsi' : 
-            prompt += " generate it in farsi"
+            prompt += " language of the content should be farsi"
     
         
         text=gpt.gpt_summarise(prompt, topic)

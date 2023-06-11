@@ -8,6 +8,7 @@ import requests
 from streamlit_lottie import st_lottie
 from PIL import Image
 from streamlit_option_menu import option_menu
+import tempfile
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -58,8 +59,14 @@ def Home():
     with st.container():
         image_container, text_container = st.columns((1, 2))
         with image_container:
-            gpt_logo = Image.open('images/gptlogo.png', mode='r')
-            st.image(gpt_logo, use_column_width='always')
+            # gpt_logo = Image.open('images/gptlogo.png', mode='r')
+            # st.image(gpt_logo, use_column_width='always')
+            with tempfile.TemporaryDirectory() as temp_dir:
+                gpt_logo_path = os.path.join(temp_dir, "gptlogo.png")
+                gpt_logo = Image.open('images/gptlogo.png', mode='r')
+                gpt_logo.save(gpt_logo_path)
+                st.image(gpt_logo_path, use_column_width='always')
+
             
         with text_container:
            st.markdown(
@@ -73,8 +80,14 @@ def Home():
     with st.container():
         image_container, text_container = st.columns((1, 2))
         with image_container:
-            summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
-            st.image(summarizer_logo, use_column_width='always')
+            # summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
+            # st.image(summarizer_logo, use_column_width='always')
+            with tempfile.TemporaryDirectory() as temp_dir:
+                summarizer_logo_path = os.path.join(temp_dir, "summarizer.jpg")
+                summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
+                summarizer_logo.save(summarizer_logo_path)
+                st.image(summarizer_logo_path, use_column_width='always')
+
         with text_container:
             st.markdown(
                 """

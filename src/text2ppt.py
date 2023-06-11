@@ -4,8 +4,8 @@ from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
 import src.addphoto as addphoto
 import re
 from pptx.dml.color import RGBColor
-#Create a new PowerPoint presentation
 
+#Create a new PowerPoint presentation
 def presentate(defined_list, save_as, color):
     prs = Presentation()
 
