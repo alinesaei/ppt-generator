@@ -1,19 +1,10 @@
-import openai
-import os 
+from transformers import pipeline
 
-# Set up your OpenAI API credentials
-openai.api_key = os.getenv('OPENAI_KEY')
 
-# Function to generate text summaries using GPT-3
-def generate_summary(text):
-    response = openai.Completion.create(
-        engine='text-davinci-003',
-        prompt=text,
-        max_tokens=150,
-        temperature=0.3,
-        n=1,
-        stop=None,
-    )
-    summary = response.choices[0].text.strip()
-    return summary
-# i want to add a module to generate a summary for the presentation
+def generate_summary(text, language):
+    summarizer = pipeline("summarization", model="t5-base", tokenizer="t5-base")
+    if language == 'English':
+        summary = summarizer(text, max_length=100, min_length=30, do_sample=False)
+    elif language == 'Farsi':
+        summary = summarizer(text, max_length=100, min_length=30, do_sample=False, model="hossein/Multi-News")
+    return summary[0]['summary_text']
