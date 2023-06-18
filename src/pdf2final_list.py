@@ -9,11 +9,11 @@ def process(topic_list, difficulty, language):
         prompt = "I am giving you a topic. return a topic and information (elaborate and in depth. make it lengthy) in ten points. strictly follow the syntax'Topic : topic goes here , Summary : summary sentence 1, summary sentence 2,summary sentence 3,summary sentence 4,summary sentence 5,summary sentence 6, summary sentence 7,summary sentence 8,summary sentence 9,summary sentence 10'. the points should give complete in-depth knowledge of the topic"
         
         if difficulty == "easy":
-            prompt += " Please provide a simple and basic overview."
+            prompt += " Please provide a simple and basic overview.Use simple vocabulary."
         elif difficulty == "medium":
             prompt += " Please provide a detailed overview including key facts and concepts."
         elif difficulty == "hard":
-            prompt += " Please provide an in-depth analysis including advantages, disadvantages, and examples."
+            prompt += " Please provide an in-depth analysis including advantages, disadvantages, and examples with use academic lexical resource."
 
         if language == 'farsi' : 
             prompt += " language of the content should be farsi"
