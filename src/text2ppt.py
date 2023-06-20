@@ -63,9 +63,9 @@ def presentate(defined_list, save_as, color):
         slide = add_slide(prs, title_slide_layout, defined_list[i]["Topic"],"\n".join(defined_list[i]["Summary"][len(defined_list[i]["Summary"])//2:]))
         #slide = add_slide1(prs, title_slide_layout, "Code Snippet For "+defined_list[i]["Topic"],defined_list[i]["Code"])
         try:
-            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],1)[0])
+            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],5)[0])
         except:
-            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],2)[1])
+            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],5)[1])
         addphoto.empty_images()
 
     rgb_color = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
@@ -74,5 +74,6 @@ def presentate(defined_list, save_as, color):
     for slide in prs.slides:
         slide.background.fill.solid()
         slide.background.fill.fore_color.rgb = background_color
-    # Save the presentation
+
     prs.save(f"{save_as}.pptx")
+

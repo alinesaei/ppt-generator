@@ -10,6 +10,7 @@ from PIL import Image
 from streamlit_option_menu import option_menu
 import tempfile
 
+
 def load_lottieurl(url):
     r = requests.get(url)
     if r.status_code != 200:
@@ -106,24 +107,34 @@ def generate_ppt():
         options=['easy', 'medium', 'hard']
     )
     keyword = st.text_input('Keywords')
-    language = st.selectbox(
-    'Select the language',
-    ('English', 'فارسی'))
+    with st.container():
+        language_container, color_container = st.columns((1, 1))
+        
+        with language_container:
+            language = st.selectbox(
+            'Select the language',
+            ('English', 'فارسی'))
 
-    if language == 'فارسی':
-        language = 'farsi'
-    color = st.color_picker('Pick A Color for the background', '#00f900').lstrip('#')
+            if language == 'فارسی':
+                language = 'farsi'
+        with color_container:
+            color = st.color_picker('Pick A Color for the background', '#00f900').lstrip('#')
     file_name_save = st.text_input('file name')
-    #author_name = st.text_input("Author Name")
-    #presentation_title = st.text_input("Presentation Title")
+    with st.container():
+        author_container, presentation_title_container= st.columns((1, 1))
+        with author_container:
+            author_name = st.text_input("Author Name")
+        with presentation_title_container:
+            presentation_title = st.text_input("Presentation Title")
     if st.button("Generate PPT", key="generate_button"):
         try:
             with st.spinner('In progress...'):
                 topics = [topic.strip() for topic in input_text.split(",")]
                 keyword_list = [k.strip() for k in keyword.split(',')]
                 x = process(topics, difficulty, language)
-                prs = presentate(x, file_name_save, color)
+                prs = presentate(x, file_name_save,color)
             st.success('Done!')
+
             
                 
         except Exception as e:
