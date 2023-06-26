@@ -1,49 +1,51 @@
 import nltk
-from sklearn.cluster import KMeans
-from sklearn.metrics import pairwise_distances_argmin_min
-from sklearn.feature_extraction.text import TfidfVectorizer
+from transformers import BartTokenizer, BartForConditionalGeneration
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
-from sumy.summarizers.lex_rank import LexRankSummarizer
-from sumy.utils import get_stop_words
-from gensim.summarization import summarize
+from sumy.summarizers.text_rank import TextRankSummarizer
+import torch
 
-def generate_bullet_points(paragraph, num_clusters=3, max_words=6):
-    # Tokenize the paragraph into sentences
+def generate_bullet_points(paragraph, max_words=10, num_sentences=5):
+    # Load pre-trained BART model and tokenizer
+    model_name = 'facebook/bart-base'
+    tokenizer = BartTokenizer.from_pretrained(model_name)
+    model = BartForConditionalGeneration.from_pretrained(model_name)
+
+    # Split paragraph into sentences
     sentences = nltk.sent_tokenize(paragraph)
-    
-    # Step 1: Use LexRank for extractive summarization
-    summarizer = LexRankSummarizer()
-    parser = PlaintextParser.from_string(paragraph, Tokenizer("english"))
-    lexrank_summary = summarizer(parser.document, num_sentences=len(sentences))
-    
-    # Step 2: Perform sentence clustering
-    vectorizer = TfidfVectorizer()
-    sentence_vectors = vectorizer.fit_transform(lexrank_summary)
-    
-    kmeans = KMeans(n_clusters=num_clusters)
-    kmeans.fit(sentence_vectors)
-    
-    # Step 3: Generate bullet points from cluster representatives
+
     bullet_points = []
-    for cluster_id in range(num_clusters):
-        cluster_sentences = [sentence for idx, sentence in enumerate(lexrank_summary) if kmeans.labels_[idx] == cluster_id]
-        
-        if len(cluster_sentences) > 0:
-            cluster_vector = vectorizer.transform(cluster_sentences)
-            centroid = cluster_vector.mean(axis=0)
-            closest_sentence_idx = pairwise_distances_argmin_min(centroid, cluster_vector)[0][0]
-            closest_sentence = cluster_sentences[closest_sentence_idx]
-            
-            # Step 4: Apply sentence compression techniques
-            compressed_sentence = summarize(closest_sentence, word_count=max_words)
-            bullet_points.append(compressed_sentence)
-    
+    # Generate bullet points for each sentence
+    for sentence in sentences:
+        # Tokenize input sentence
+        input_ids = tokenizer.encode(sentence, return_tensors='pt')
+
+        # Generate summary using BART model
+        with torch.no_grad():
+            outputs = model.generate(input_ids, num_beams=4, max_length=50, early_stopping=True)
+
+        # Decode the generated summary
+        summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+        # Parse the summary with TextRank
+        parser = PlaintextParser.from_string(summary, Tokenizer('english'))
+        summarizer = TextRankSummarizer()
+        ranked_sentences = summarizer(parser.document, num_sentences=1)
+
+        # Truncate the sentence to the desired maximum length
+        bullet_point = truncate_text(str(ranked_sentences[0]), max_words)
+        bullet_points.append(bullet_point)
+
     return bullet_points
 
+
+
 # Example usage
-paragraph = """At first glance, this change may look pointless: we just moved the constructor call from one part of the program to another. However, consider this: now you can override the factory method in a subclass and change the class of products being created by the method. There's a slight limitation though: subclasses may return different types of products only if these products have a common base class or interface. Also, the factory method in the base class should have its return type declared as this interface."""
-bullet_points = generate_bullet_points(paragraph)
+paragraph = """Lionel Messi is an Argentinian soccer player who has played for FC Barcelona, Paris Saint-Germain, and the Argentina national team. As a teenager, Messi moved from Argentina to Spain after FC Barcelona agreed to pay for medical treatments related to his growth hormone disorder. At the club, he earned renown as one of the greatest players in history, helping FC Barcelona win more than two dozen league titles and tournaments. In 2012, he set a record for most goals in a calendar year and, a decade later, helped the Argentina national team win its third FIFA World Cup. The seven-time Ballon d’Or winner moved to Paris Saint-Germain in 2021 and announced in June 2023 he plans to join MLS’ Inter Miami club."""
+
+bullet_points = generate_bullet_points(paragraph, max_words=7, num_sentences=5)
+
+print(bullet_points)
 for bullet in bullet_points:
     print(bullet,'\n')
 

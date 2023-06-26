@@ -139,7 +139,7 @@ def generate_ppt():
                 topics = [topic.strip() for topic in input_text.split(",")]
                 keyword_list = [k.strip() for k in keyword.split(',')]
                 x = process(topics, difficulty, language)
-                prs = presentate(x, file_name_save,color)
+                prs = presentate(x, file_name_save,color,presentation_title,author_name)
             st.success('Done!')
 
             

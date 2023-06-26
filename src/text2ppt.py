@@ -4,9 +4,11 @@ from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE
 import src.addphoto as addphoto
 import re
 from pptx.dml.color import RGBColor
+from pptx.enum.text import PP_ALIGN
+
 
 #Create a new PowerPoint presentation
-def presentate(defined_list, save_as, color):
+def presentate(defined_list, save_as, color,  title, author):
     prs = Presentation()
 
     def add_slide(prs, layout, title, subtitle):
@@ -51,7 +53,33 @@ def presentate(defined_list, save_as, color):
         width = Inches(8)
         height = Inches(6)
         pic = slide.shapes.add_picture(img_path, left, top, width, height)
+
+    def add_title_slide(prs, prs_title, author):
+        title_slide_layout = prs.slide_layouts[0]
+        slide = prs.slides.add_slide(title_slide_layout)
+
+        title = slide.shapes.title
+        title.text = prs_title
+        title.text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER  # Center align the title
+
+        # Modify the font properties for the title
+        title_font = title.text_frame.paragraphs[0].runs[0].font
+        title_font.bold = True
+        title_font.name = 'Arial'
+        title_font.size = Pt(40)  # Adjust the font size as desired
+
+        subtitle = slide.placeholders[1]
+        subtitle.text = author
+
+        # Modify the font properties for the author name
+        author_font = subtitle.text_frame.paragraphs[0].runs[0].font
+        author_font.color.rgb = RGBColor(0, 0, 0)  # Set the author name color (black in this case)
+        author_font.bold = False
+        author_font.name = 'Arial'
+        author_font.size = Pt(20)  # Adjust the font size as desired
+
         
+
     title_slide_layout = prs.slide_layouts[1]
     title_slide_layimg=prs.slide_layouts[6]
 
@@ -59,13 +87,14 @@ def presentate(defined_list, save_as, color):
         d["Summary"] = [re.sub(r'\d+\.\s+', '', item).strip() for item in d["Summary"] if re.sub(r'\d+\.\s+', '', item).strip()]
 
     for i in range (0,len(defined_list)):
+        add_title_slide(prs, title, author)
         slide = add_slide(prs, title_slide_layout, defined_list[i]["Topic"],"\n".join(defined_list[i]["Summary"][0:len(defined_list[i]["Summary"])//2]))
         slide = add_slide(prs, title_slide_layout, defined_list[i]["Topic"],"\n".join(defined_list[i]["Summary"][len(defined_list[i]["Summary"])//2:]))
         #slide = add_slide1(prs, title_slide_layout, "Code Snippet For "+defined_list[i]["Topic"],defined_list[i]["Code"])
         try:
-            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],5)[0])
+            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],1)[0])
         except:
-            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],5)[1])
+            slide2 = add_slide_img(prs,title_slide_layimg,"images/"+addphoto.get_images(defined_list[i]["Topic"],1)[1])
         addphoto.empty_images()
 
     rgb_color = tuple(int(color[i:i+2], 16) for i in (0, 2, 4))
