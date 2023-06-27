@@ -78,6 +78,28 @@ def presentate(defined_list, save_as, color,  title, author):
         author_font.name = 'Arial'
         author_font.size = Pt(20)  # Adjust the font size as desired
 
+    def add_two_content_slide(prs, title, content_text, picture_path):
+        slide_layout = prs.slide_layouts[3]  # Use layout number 3 (Two Content)
+        slide = prs.slides.add_slide(slide_layout)
+
+        shapes = slide.shapes
+        title_shape = shapes.title
+        content_shape = shapes.placeholders[1]
+        picture_placeholder = shapes.placeholders[2]
+
+        title_shape.text = title
+        content_shape.text = content_text
+
+        # Set the position and size of the picture placeholder
+        left = Inches(5)  # Adjust the position as desired
+        top = Inches(1)  # Adjust the position as desired
+        width = Inches(4)  # Adjust the size as desired
+        height = Inches(5)  # Adjust the size as desired
+        picture = picture_placeholder.insert_picture(picture_path)
+        picture.left = left
+        picture.top = top
+        picture.width = width
+        picture.height = height
         
 
     title_slide_layout = prs.slide_layouts[1]
