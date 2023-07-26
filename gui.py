@@ -1,9 +1,10 @@
 import streamlit as st
 from src.pdf2final_list import process
-from  src.text2ppt import presentate
+from  src.text2ppt import create_ppt
 import shutil
 import os
 from src.summarizer import generate_summary
+from src.gpt import generate_content
 import requests
 from streamlit_lottie import st_lottie
 from PIL import Image
@@ -104,6 +105,7 @@ def Home():
 def generate_ppt():
     st.write("Enter comma-separated topics:")
     input_text = st.text_input("Topics")
+
     with st.container():
         difficulty_container, color_container = st.columns((3, 1))
         with difficulty_container:
@@ -125,7 +127,9 @@ def generate_ppt():
 
             if language == 'فارسی':
                 language = 'farsi'
-        
+    with open(f'Cache/{input_text}.txt', 'w', encoding='utf-8') as f:
+        f.write(generate_content(input_text, process(difficulty, language)))
+
     file_name_save = st.text_input('file name')
     with st.container():
         author_container, presentation_title_container= st.columns((1, 1))
@@ -136,10 +140,9 @@ def generate_ppt():
     if st.button("Generate PPT", key="generate_button"):
         try:
             with st.spinner('In progress...'):
-                topics = [topic.strip() for topic in input_text.split(",")]
-                keyword_list = [k.strip() for k in keyword.split(',')]
-                x = process(topics, difficulty, language)
-                prs = presentate(x, file_name_save,color,presentation_title,author_name)
+                # topics = [topic.strip() for topic in input_text.split(",")]
+                # keyword_list = [k.strip() for k in keyword.split(',')]
+                prs = create_ppt(f'Cache/{input_text}.txt', 5, input_text)
             st.success('Done!')
 
             
