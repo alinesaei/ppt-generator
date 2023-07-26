@@ -114,8 +114,7 @@ def generate_ppt():
                 options=['easy', 'medium', 'hard']
             )
         with color_container:
-                color = st.color_picker('Pick A Color for the background', '#00f900').lstrip('#')
-        
+            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
     with st.container():
         keyword_container, language_container = st.columns((1, 1))
         with keyword_container:
@@ -127,26 +126,19 @@ def generate_ppt():
 
             if language == 'فارسی':
                 language = 'farsi'
-    with open(f'Cache/{input_text}.txt', 'w', encoding='utf-8') as f:
-        f.write(generate_content(input_text, process(difficulty, language)))
 
-    file_name_save = st.text_input('file name')
     with st.container():
         author_container, presentation_title_container= st.columns((1, 1))
         with author_container:
             author_name = st.text_input("Author Name")
-        with presentation_title_container:
-            presentation_title = st.text_input("Presentation Title")
     if st.button("Generate PPT", key="generate_button"):
         try:
+            with open(f'Cache/{input_text}.txt', 'w', encoding='utf-8') as f:
+                f.write(generate_content(input_text, process(difficulty, language)))
             with st.spinner('In progress...'):
-                # topics = [topic.strip() for topic in input_text.split(",")]
-                # keyword_list = [k.strip() for k in keyword.split(',')]
-                prs = create_ppt(f'Cache/{input_text}.txt', 5, input_text, author_name)
+                prs = create_ppt(f'Cache/{input_text}.txt', theme, input_text, author_name)
             st.success('Done!')
 
-            
-                
         except Exception as e:
             st.error(str(e))
 
