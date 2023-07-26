@@ -142,7 +142,7 @@ def generate_ppt():
             with st.spinner('In progress...'):
                 # topics = [topic.strip() for topic in input_text.split(",")]
                 # keyword_list = [k.strip() for k in keyword.split(',')]
-                prs = create_ppt(f'Cache/{input_text}.txt', 5, input_text)
+                prs = create_ppt(f'Cache/{input_text}.txt', 5, input_text, author_name)
             st.success('Done!')
 
             

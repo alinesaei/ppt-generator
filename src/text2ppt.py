@@ -6,7 +6,9 @@ import re
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 import random
-def create_ppt(text_file, design_number, ppt_name):
+import re
+
+def create_ppt(text_file, design_number, ppt_name, author):
     prs = Presentation(f"Designs/Design-{design_number}.pptx")
     slide_count = 0
     header = ""
@@ -20,6 +22,8 @@ def create_ppt(text_file, design_number, ppt_name):
                 slide = prs.slides.add_slide(prs.slide_layouts[0])
                 title = slide.shapes.title
                 title.text = header
+                subtitle = slide.placeholders[1]
+                subtitle.text = author
                 body_shape = slide.shapes.placeholders[1]
                 continue
             elif line.startswith('#Slide:'):
@@ -61,6 +65,7 @@ def create_ppt(text_file, design_number, ppt_name):
                 continue
 
     prs.save(f'GeneratedPresentations/{ppt_name}.pptx')
+    
 
 
 #Create a new PowerPoint presentation
