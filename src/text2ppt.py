@@ -7,11 +7,13 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 import random
 import re
-
+import requests
+import io
 
 
 def create_ppt(text_file, design_number, ppt_name, author):
     prs = Presentation(f"Designs/Design-{design_number}.pptx")
+    slide_master = prs.slide_masters[0]
     slide_count = 0
     header = ""
     content = ""
@@ -19,6 +21,7 @@ def create_ppt(text_file, design_number, ppt_name, author):
     firsttime = True
     with open(text_file, 'r', encoding='utf-8') as f:
         for line_num, line in enumerate(f):
+                            
             if line.startswith('#Title:'):
                 header = line.replace('#Title:', '').strip()
                 slide = prs.slides.add_slide(prs.slide_layouts[0])
@@ -36,12 +39,22 @@ def create_ppt(text_file, design_number, ppt_name, author):
                     body_shape = slide.shapes.placeholders[slide_placeholder_index]
                     tf = body_shape.text_frame
                     tf.text = content
+                    if slide_layout_index == 8:
+                        placeholder = slide.placeholders[1]
+                        query = f'{ppt_name} {header}'
+                        picture = placeholder.insert_picture("images/"+addphoto.get_images(query,1)[0])
+                        addphoto.empty_images()
+                        # image_url = addphoto.search_pexels_images(ppt_name)
+                        # if image_url is not None:
+                        #     # download the image
+                        #     image_data = requests.get(image_url).content
+                        #     # load image into BytesIO object
+                        #     image_stream = io.BytesIO(image_data)
+                        #     picture = placeholder.insert_picture(image_stream)
                     # if slide_layout_index == 7:
                     #     placeholder = slide.placeholders[1]
                     #     picture = placeholder.insert_picture('Sample.png')
-                    if slide_layout_index == 8:
-                        placeholder = slide.placeholders[1]
-                        picture = placeholder.insert_picture('Sample.png')
+                    
 
                 content = "" 
                 slide_count += 1
@@ -64,6 +77,7 @@ def create_ppt(text_file, design_number, ppt_name, author):
 
             elif line.startswith('#Header:'):
                 header = line.replace('#Header:', '').strip()
+                
                 continue
 
             elif line.startswith('#Content:'):

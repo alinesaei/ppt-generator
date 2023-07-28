@@ -114,7 +114,7 @@ def generate_ppt():
                 options=['easy', 'medium', 'hard']
             )
         with color_container:
-            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
+            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7, 8))
     with st.container():
         keyword_container, language_container = st.columns((1, 1))
         with keyword_container:

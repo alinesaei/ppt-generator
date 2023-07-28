@@ -2,6 +2,9 @@ import os
 import glob
 from google_images_search import GoogleImagesSearch
 from dotenv import load_dotenv
+import json
+import requests
+import io
 
 # Environment variables 
 load_dotenv()
@@ -30,6 +33,29 @@ def get_images(query, n):
             return []
     except Exception as e:
         print(e)
+
+def search_pexels_images(query):
+    API_KEY = os.getenv('PEXELS_KEY')
+
+    # extract keyword
+    query = query.split()[0].lower()
+    print(query)
+    PEXELS_API_URL = f'https://api.pexels.com/v1/search?query={query}&per_page=1'
+
+    headers = {
+        'Authorization': API_KEY
+    }
+
+    response = requests.get(PEXELS_API_URL, headers=headers)
+
+    data = json.loads(response.text)
+
+    if 'photos' in data:
+        if len(data['photos']) > 0:
+            return data['photos'][0]['src']['medium']
+
+    return None
+
 
 # function to empty the images folder
 def empty_images():
