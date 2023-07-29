@@ -52,8 +52,10 @@ def create_ppt(text_file, design_number, ppt_name, author):
                         #     image_stream = io.BytesIO(image_data)
                         #     picture = placeholder.insert_picture(image_stream)
                     # if slide_layout_index == 7:
-                    #     placeholder = slide.placeholders[1]
-                    #     picture = placeholder.insert_picture('Sample.png')
+                    #     placeholder = slide.placeholders[]
+                    #     query = f'{ppt_name} {header}'
+                    #     picture = placeholder.insert_picture("images/"+addphoto.get_images(query,1)[0])
+                    #     addphoto.empty_images()
                     
 
                 content = "" 

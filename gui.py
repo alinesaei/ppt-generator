@@ -18,6 +18,7 @@ def load_lottieurl(url):
         return None
     return r.json()
 
+
 def main():
     st.set_page_config(page_title="PowerPoint Generator", page_icon=":books:", layout="wide")
 
@@ -133,9 +134,10 @@ def generate_ppt():
             author_name = st.text_input("Author Name")
     if st.button("Generate PPT", key="generate_button"):
         try:
-            with open(f'Cache/{input_text}.txt', 'w', encoding='utf-8') as f:
-                f.write(generate_content(input_text, process(difficulty, language)))
             with st.spinner('In progress...'):
+                with open(f'Cache/{input_text}.txt', 'w', encoding='utf-8') as f:
+                    f.write(generate_content(input_text, process(difficulty, language)))
+            
                 prs = create_ppt(f'Cache/{input_text}.txt', theme, input_text, author_name)
             st.success('Done!')
 
