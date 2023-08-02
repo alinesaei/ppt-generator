@@ -20,7 +20,7 @@ def load_lottieurl(url):
 
 
 def main():
-    st.set_page_config(page_title="PowerPoint Generator", page_icon=":books:", layout="wide")
+    st.set_page_config(page_title="Presentation Generator", page_icon=":books:", layout="wide")
 
 
     # 2. horizontal menu
@@ -49,10 +49,12 @@ def Home():
                 **Presentation Generator is a powerful web application that empowers
                 you to create stunning PowerPoint presentations and generate concise text summaries effortlessly.
                 Whether you need to deliver a compelling presentation or extract key information from lengthy texts,
-                this application is here to simplify your workflow.**
+                this application is here to simplify your workflow.\n
+                Whether you need to deliver a compelling presentation or extract key information from lengthy texts, this application is here to simplify your workflow.**
                 """
                 )
             st.markdown("[:link:](https://github.com/alinesaei/ppt-generator)")
+
         with right_col:
            # st.image('images/presentation-logo2.jpg', use_column_width="always")
            st_lottie("https://assets2.lottiefiles.com/private_files/lf30_0dui3jqg.json")
@@ -60,38 +62,38 @@ def Home():
     
     #ABOUT POWERPOINT GENERATOR
     with st.container():
-        col1, col2 = st.columns([1, 1])
-        with col1:
             image_container, text_container = st.columns((1, 2))
             with image_container:
                 # gpt_logo = Image.open('images/gptlogo.png', mode='r')
                 # st.image(gpt_logo, use_column_width='always')
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    gpt_logo_path = os.path.join(temp_dir, "gptlogo.png")
-                    gpt_logo = Image.open('logo/gptlogo.png', mode='r')
-                    gpt_logo.save(gpt_logo_path)
-                    st.image(gpt_logo_path, use_column_width='always')
-
+                # with tempfile.TemporaryDirectory() as temp_dir:
+                #     gpt_logo_path = os.path.join(temp_dir, "gptlogo.png")
+                #     gpt_logo = Image.open('logo/gptlogo.png', mode='r')
+                #     gpt_logo.save(gpt_logo_path)
+                #     st.image(gpt_logo_path, use_column_width='always')
+                st_lottie('https://lottie.host/ccb251ee-de40-4993-bae0-026324c5cd62/dDRhkwBv3P.json')
             
             with text_container:
                 st.markdown(
                         """
-                        The PowerPoint Generator leverages the power of GPT-3.5, an advanced language model developed by OpenAI. By harnessing the capabilities of GPT-3.5, it utilizes artificial intelligence to rapidly generate detailed content for a wide range of topics. This ensures that the generated slides contain accurate and relevant information, saving you time and effort in researching and compiling content for your presentation.
+                        The PowerPoint Generator is an innovative application that leverages the power of GPT-3.5, an advanced language model developed by OpenAI. By harnessing the capabilities of this state-of-the-art technology, the tool utilizes artificial intelligence to rapidly generate detailed content for a wide range of topics. This ensures that the generated slides contain accurate, relevant, and comprehensive information, saving you time and effort in researching and compiling content for your presentations.
+                        The tool is incredibly versatile and can be used for creating presentations on an array of subjects, be it science, technology, business, or humanities. The powerful AI engine takes into consideration the context and the nuances of the topic to craft content that is not just informative but also engaging and well-structured. It is designed to help professionals, students, and educators alike in creating high-quality presentations quickly and efficiently.
+
                         """
                     )
            
 
     #ABOUT SUMMARIZER
-    with col2:
             image_container, text_container = st.columns((1, 2))
             with image_container:
                 # summarizer_logo = Image.open('images/summarizer.jpg', mode='r')
                 # st.image(summarizer_logo, use_column_width='always')
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    summarizer_logo_path = os.path.join(temp_dir, "summarizer.jpg")
-                    summarizer_logo = Image.open('logo/summarizer.jpg', mode='r')
-                    summarizer_logo.save(summarizer_logo_path)
-                    st.image(summarizer_logo_path, use_column_width='always')
+                # with tempfile.TemporaryDirectory() as temp_dir:
+                #     summarizer_logo_path = os.path.join(temp_dir, "summarizer.jpg")
+                #     summarizer_logo = Image.open('logo/summarizer.jpg', mode='r')
+                #     summarizer_logo.save(summarizer_logo_path)
+                #     st.image(summarizer_logo_path, use_column_width='always')
+                st_lottie('https://lottie.host/d1501c56-8687-4cee-a65d-1a29d7cb9265/iBjEBeS25B.json')
 
             with text_container:
                 st.markdown(
@@ -106,7 +108,7 @@ def Home():
 def generate_ppt():
     st.write("Enter comma-separated topics:")
     input_text = st.text_input("Topics")
-
+    
     with st.container():
         difficulty_container, color_container = st.columns((3, 1))
         with difficulty_container:
@@ -116,6 +118,7 @@ def generate_ppt():
             )
         with color_container:
             theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7, 8))
+    st.divider()
     with st.container():
         keyword_container, language_container = st.columns((1, 1))
         with keyword_container:
@@ -127,7 +130,7 @@ def generate_ppt():
 
             if language == 'فارسی':
                 language = 'farsi'
-
+    st.divider()
     with st.container():
         author_container, presentation_title_container= st.columns((1, 1))
         with author_container:

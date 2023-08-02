@@ -40,13 +40,13 @@ def process(difficulty, language):
 
             #Slide: END"""
     if difficulty == "easy":
-            prompt += " Please provide a simple and basic overview.Use simple vocabulary."
+            prompt += "\nDifficulty level: easy"
     elif difficulty == "medium":
-            prompt += " Please provide a detailed overview including key facts and concepts."
+            prompt += "\nDifficulty level: medium"
     elif difficulty == "hard":
-            prompt += " Please provide an in-depth analysis including advantages, disadvantages, and examples with use academic lexical resource."
+            prompt += "\nDifficulty level: hard"
 
     if language == 'farsi' : 
-            prompt += " language of the content should be farsi"
+            prompt += "\nlanguage of the content should be farsi"
 
     return prompt
