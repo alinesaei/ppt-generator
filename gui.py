@@ -106,7 +106,6 @@ def Home():
         
  
 def generate_ppt():
-    st.write("Enter comma-separated topics:")
     input_text = st.text_input("Topics")
     
     with st.container():
@@ -117,12 +116,10 @@ def generate_ppt():
                 options=['easy', 'medium', 'hard']
             )
         with color_container:
-            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7, 8))
+            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
     st.divider()
     with st.container():
         keyword_container, language_container = st.columns((1, 1))
-        with keyword_container:
-            keyword = st.text_input('Keywords')
         with language_container:
             language = st.selectbox(
             'Select the language',
@@ -142,14 +139,32 @@ def generate_ppt():
                     f.write(generate_content(input_text, process(difficulty, language)))
             
                 prs = create_ppt(f'Cache/{input_text}.txt', theme, input_text, author_name)
+                ppt_path = f'GeneratedPresentations/{input_text}.pptx'
             st.success('Done!')
-
+            # Add a button to download the generated presentation
+            with open(ppt_path, "rb") as file:
+                btn = st.download_button(
+                    label="Download Presentation",
+                    data=file,
+                    file_name=f'{input_text}.pptx',
+                    mime='application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                )
         except Exception as e:
             st.error(str(e))
 
 def summarizer():
     st.write("Enter text to summarize:")
-    input_text = st.text_area("Text")
+
+    # Custom CSS
+    st.markdown("""
+    <style>
+    .css-2trqyj {
+        border: 2px solid black !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    input_text = st.text_area("Text", help='Type...')
 
     if st.button("Summarize", key="summarize_button"):
         try:
