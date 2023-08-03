@@ -119,7 +119,7 @@ def generate_ppt():
             theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
     st.divider()
     with st.container():
-        keyword_container, language_container = st.columns((1, 1))
+        author_container, language_container = st.columns((1, 1))
         with language_container:
             language = st.selectbox(
             'Select the language',
@@ -127,9 +127,6 @@ def generate_ppt():
 
             if language == 'فارسی':
                 language = 'farsi'
-    st.divider()
-    with st.container():
-        author_container, presentation_title_container= st.columns((1, 1))
         with author_container:
             author_name = st.text_input("Author Name")
     if st.button("Generate PPT", key="generate_button"):
