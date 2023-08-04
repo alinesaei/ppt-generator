@@ -8,7 +8,8 @@ __pycache__/
 *.pptx 
 *.pptx#
 
-Cache/*
+Cache/
+GeneratedPresentations/
 
 # C extensions
 *.so
