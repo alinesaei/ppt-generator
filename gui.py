@@ -1,6 +1,6 @@
 import streamlit as st
 from src.pdf2final_list import process
-from  src.text2ppt import create_ppt
+from  src.text2ppt import create_ppt, set_font
 import shutil
 import os
 from src.summarizer import generate_summary
@@ -109,14 +109,17 @@ def generate_ppt():
     input_text = st.text_input("Topics")
     
     with st.container():
-        difficulty_container, color_container = st.columns((3, 1))
+        difficulty_container, theme_container, font_container = st.columns((2, 2, 2))
         with difficulty_container:
             difficulty = st.select_slider(
                 'Select the diffulcty of the content',
                 options=['easy', 'medium', 'hard']
             )
-        with color_container:
+        with theme_container:
             theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
+        with font_container:
+            font_options = ["Aerial", "Time Roman", "Verana", "Caliban"]
+            selected_font = st.selectbox('Choose your font:', font_options)
     st.divider()
     with st.container():
         author_container, language_container = st.columns((1, 1))
@@ -136,7 +139,9 @@ def generate_ppt():
                     f.write(generate_content(input_text, process(difficulty, language)))
             
                 prs = create_ppt(f'Cache/{input_text}.txt', theme, input_text, author_name)
+
                 ppt_path = f'GeneratedPresentations/{input_text}.pptx'
+                prs = set_font(ppt_path, selected_font)
             st.success('Done!')
             # Add a button to download the generated presentation
             with open(ppt_path, "rb") as file:

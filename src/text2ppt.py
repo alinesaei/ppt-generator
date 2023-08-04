@@ -10,6 +10,26 @@ import re
 import requests
 import io
 
+def set_font(ppt_path, selected_font):
+    prs = Presentation(ppt_path)
+    # Iterate through all slides
+    for slide in prs.slides:
+        # Iterate through all shapes on the slide
+        for shape in slide.shapes:
+            # Check if the shape has text
+            if shape.has_text_frame:
+                # Iterate through all paragraphs in the text frame
+                for paragraph in shape.text_frame.paragraphs:
+                    # Iterate through all runs in the paragraph
+                    for run in paragraph.runs:
+                        # Change font characteristics
+                        run.font.name = selected_font  # Change the font type
+                        # run.font.size = Pt(24)  # Change the font size
+                        # run.font.bold = True  # Make the text bold
+                        # run.font.color.rgb = RGBColor(0x42, 0x87, 0xF5)  # Change the font color
+
+    # Save your presentation
+    prs.save(ppt_path)
 
 def create_ppt(text_file, design_number, ppt_name, author):
     prs = Presentation(f"Designs/Design-{design_number}.pptx")
