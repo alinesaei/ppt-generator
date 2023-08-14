@@ -1,10 +1,21 @@
 # ppt-generator
 
-This is a presentation generator tool that allows you to convert a list of topics into a PowerPoint presentation. The tool uses Python and various libraries to process the input topics, generate slide content, and create the final presentation.
+`ppt-generator` is a powerful tool designed to automate the process of generating PowerPoint presentations. With a simple command, you can transform your data into a visually appealing presentation, saving you time and effort.
 
 ## Features
 
-- Converts a list of topics into a PowerPoint presentation
-- Generates text summaries for each topic using OpenAI's GPT-3 model
-- Includes code snippets related to each topic in the presentation
-- Retrieves and adds relevant images to the slides
+- **Automated Slide Creation**: Generate slides with ease based on your input data.
+- **Customizable Templates**: Choose from a variety of templates to match your presentation style.
+- **Easy Integration**: Seamlessly integrate with other tools and services.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/alinesaei/ppt-generator.git
+
+2. Navigate to the project directory:
+   ```bash
+   cd ppt-generator
+
+
