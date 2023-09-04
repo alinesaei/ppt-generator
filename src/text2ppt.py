@@ -10,6 +10,29 @@ import re
 import requests
 import io
 
+def add_slide_numbers(ppt_path):
+    # Load the existing PowerPoint presentation
+    prs = Presentation(ppt_path)
+
+    for i, slide in enumerate(prs.slides, start=1):
+        if i==1 or i==2:
+            continue
+        left = Inches(6.43)  # Adjust the position as needed
+        top = Inches(6.74)   # Adjust the position as needed
+        width = Inches(1)
+        height = Inches(0.2)
+        
+        txBox = slide.shapes.add_textbox(left, top, width, height)
+        tf = txBox.text_frame
+        p = tf.add_paragraph()
+        p.text = f"{i}"
+        p.font.bold = True
+        p.font.size = Pt(14)
+        p.alignment = PP_ALIGN.RIGHT  # Adjust alignment as needed
+
+    # Save the presentation with slide numbers
+    prs.save(ppt_path)
+
 def set_font(ppt_path, selected_font):
     prs = Presentation(ppt_path)
     # Iterate through all slides

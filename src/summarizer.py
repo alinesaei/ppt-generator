@@ -8,3 +8,12 @@ def generate_summary(text, language):
     elif language == 'Farsi':
         summary = summarizer(text, max_length=100, min_length=30, do_sample=False, model="hossein/Multi-News")
     return summary[0]['summary_text']
+
+
+
+
+# from gensim.summarization import summarize
+
+# def summarizer(text):
+
+#    return summarize(text)

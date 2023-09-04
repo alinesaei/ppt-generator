@@ -1,6 +1,6 @@
 import streamlit as st
 from src.pdf2final_list import process
-from  src.text2ppt import create_ppt, set_font
+from  src.text2ppt import create_ppt, set_font, add_slide_numbers
 import shutil
 import os
 from src.summarizer import generate_summary
@@ -46,11 +46,11 @@ def Home():
             st.title("Presentation Generator 💻 :book:")
             st.write(
                 """
-                **Presentation Generator is a powerful web application that empowers
+                Presentation Generator is a powerful web application that empowers
                 you to create stunning PowerPoint presentations and generate concise text summaries effortlessly.
                 Whether you need to deliver a compelling presentation or extract key information from lengthy texts,
                 this application is here to simplify your workflow.\n
-                Whether you need to deliver a compelling presentation or extract key information from lengthy texts, this application is here to simplify your workflow.**
+                Whether you need to deliver a compelling presentation or extract key information from lengthy texts, this application is here to simplify your workflow.
                 """
                 )
             st.markdown("[:link:](https://github.com/alinesaei/ppt-generator)")
@@ -116,7 +116,7 @@ def generate_ppt():
                 options=['easy', 'medium', 'hard']
             )
         with theme_container:
-            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7))
+            theme = st.selectbox('Select Theme',(1, 2, 3, 4, 5, 6, 7, 8 , 9))
         with font_container:
             font_options = ["Aerial", "Time Roman", "Verana", "Caliban"]
             selected_font = st.selectbox('Choose your font:', font_options)
@@ -142,6 +142,9 @@ def generate_ppt():
 
                 ppt_path = f'GeneratedPresentations/{input_text}.pptx'
                 prs = set_font(ppt_path, selected_font)
+                prs = add_slide_numbers(ppt_path)
+                if language== 'فارسی':
+                    prs = set_font(ppt_path, 'B Zar')
             st.success('Done!')
             # Add a button to download the generated presentation
             with open(ppt_path, "rb") as file:
